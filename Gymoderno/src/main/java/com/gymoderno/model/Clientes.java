@@ -2,6 +2,7 @@ package com.gymoderno.model;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,14 +17,24 @@ public class Clientes implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long idclientes;
+	private long id;
 	private String nombre;
 	private String apellidos;
 	private String email;
-	private int celular;
+	@Column (name="observacion", length = 2000)
+	private String observacion;
+	private long celular;
 	private int identificacion;
 	private float altura;
 	private float peso;
+	
+	
+	public String getObservacion() {
+		return observacion;
+	}
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -42,10 +53,10 @@ public class Clientes implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getCelular() {
+	public long getCelular() {
 		return celular;
 	}
-	public void setCelular(int celular) {
+	public void setCelular(long celular) {
 		this.celular = celular;
 	}
 	public int getIdentificacion() {

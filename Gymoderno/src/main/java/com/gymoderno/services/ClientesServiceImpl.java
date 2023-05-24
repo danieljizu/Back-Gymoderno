@@ -74,4 +74,90 @@ public class ClientesServiceImpl implements IClientesServices {
 		return new ResponseEntity<ClientesResponseRest>(response, HttpStatus.OK);
 	}
 
+	@Override
+	@Transactional
+	public ResponseEntity<ClientesResponseRest> save(Clientes clientes) {
+		
+		ClientesResponseRest response = new ClientesResponseRest();
+		List<Clientes>list = new ArrayList<>();
+		float IMC =0;
+		String ob = null;
+		
+		try {
+			
+			Clientes clientesSaved = clientesDao.save(clientes);
+			
+			if(clientesSaved != null) {
+				
+				float pes = clientesSaved.getPeso();
+				float alt = clientesSaved.getAltura();
+				
+				IMC = pes/(alt * alt);
+				
+				if (IMC < 16) {
+					
+					ob= "Citerio de ingreso en Hospital";
+					clientesSaved.setObservacion(ob);
+					list.add(clientesSaved);
+					
+				}else if(IMC ==16 || IMC < 17) {
+					
+					ob= "Infrapeso";
+					clientesSaved.setObservacion(ob);
+					list.add(clientesSaved);
+					
+				}else if(IMC == 17 || IMC < 18) {
+					
+					ob= "Bajo Peso";
+					clientesSaved.setObservacion(ob);
+					list.add(clientesSaved);
+					
+				}else if(IMC ==18 || IMC < 25) {
+					
+					ob= "Peso Normal (Saludable)";
+					clientesSaved.setObservacion(ob);
+					list.add(clientesSaved);
+					
+				}else if(IMC == 25 || IMC < 30) {
+					
+					ob= "Sobrepeso (obesidad de grado 1)";
+					clientesSaved.setObservacion(ob);
+					list.add(clientesSaved);
+					
+				}else if(IMC == 30 || IMC < 35) {
+					
+					ob= "Sobre Peso Cronico (obesidad de grado 2)";
+					clientesSaved.setObservacion(ob);
+					list.add(clientesSaved);
+					
+				}else if(IMC == 35 || IMC <= 40) {
+					
+					ob= "Obesidad Premorbida (obesidad de grado 3)";
+					clientesSaved.setObservacion(ob);
+					list.add(clientesSaved);
+					
+				}else {
+					
+					ob= "Obesidad Morbida (obesidad de grado 4)";
+					clientesSaved.setObservacion(ob);
+					list.add(clientesSaved);
+					
+				}
+				response.getClientesResponse().setClientes(list);
+				response.setMetadata("Respuesta ok", "00", "Categoria Guardada");
+			}else {
+				response.getClientesResponse().setClientes(list);
+				response.setMetadata("Respuesta no ok", "-1", "Categoria no Guardada");
+			}
+		}catch (Exception e) {
+			
+			response.setMetadata("Respuesta no ok", "-1", "Categoria no Guardada");
+			e.getStackTrace();
+			return new ResponseEntity<ClientesResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<ClientesResponseRest>(response, HttpStatus.OK);
+
+	}
+
 }
