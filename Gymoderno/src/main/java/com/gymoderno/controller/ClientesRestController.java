@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,10 +31,10 @@ public class ClientesRestController {
 		return response;
 	}
 	
-	@GetMapping("/clientes/{idclientes}")
-	public ResponseEntity<ClientesResponseRest> searchcustomsbyid(@PathVariable Long idclientes) {
+	@GetMapping("/clientes/{id}")
+	public ResponseEntity<ClientesResponseRest> searchcustomsbyid(@PathVariable Long id) {
 		
-		ResponseEntity<ClientesResponseRest> response = services.searchById(idclientes);
+		ResponseEntity<ClientesResponseRest> response = services.searchById(id);
 		return response;
 	}
 
@@ -41,6 +42,13 @@ public class ClientesRestController {
 	public ResponseEntity<ClientesResponseRest> savecustom(@RequestBody Clientes clientes) {
 		
 		ResponseEntity<ClientesResponseRest> response = services.save(clientes);
+		return response;
+	}
+	
+	@PutMapping("/clientes/{id}")
+	public ResponseEntity<ClientesResponseRest> updatecustom(@RequestBody Clientes clientes, @PathVariable Long id) {
+		
+		ResponseEntity<ClientesResponseRest> response = services.update(clientes , id);
 		return response;
 	}
 }

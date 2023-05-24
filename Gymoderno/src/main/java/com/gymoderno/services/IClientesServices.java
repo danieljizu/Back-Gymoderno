@@ -10,5 +10,6 @@ public interface IClientesServices {
 	public ResponseEntity<ClientesResponseRest> search();
 	public ResponseEntity<ClientesResponseRest> searchById(Long id);
 	public ResponseEntity<ClientesResponseRest> save(Clientes clientes);
+	public ResponseEntity<ClientesResponseRest> update(Clientes clientes , Long id);
 
 }
